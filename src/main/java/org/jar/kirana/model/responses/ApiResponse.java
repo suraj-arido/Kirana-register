@@ -3,7 +3,7 @@ package org.jar.kirana.model.responses;
 import lombok.Data;
 
 @Data
-public class UserApiResponse {
+public class ApiResponse {
     private boolean success;
     private Object data;
     private Object view;
@@ -13,7 +13,7 @@ public class UserApiResponse {
     private String errorCode;
     private String displayMsg;
 
-    public UserApiResponse(){
+    public ApiResponse(){
         this.success = true;
     }
 }

@@ -1,14 +1,11 @@
 package org.jar.kirana.controller;
 
 import org.jar.kirana.dto.TransactionDto;
-import org.jar.kirana.model.responses.TransactionApiResponse;
+import org.jar.kirana.model.responses.ApiResponse;
 import org.jar.kirana.service.TransactionService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/transaction")
@@ -20,9 +17,14 @@ public class TransactionController {
     }
 
     @PostMapping("/credit")
-    public ResponseEntity<TransactionApiResponse> TransactionCredit(@ResponseBody TransactionDto transactionDto){
-        TransactionApiResponse transactionResult = TransactionService.newCredit(transactionDto);
-        return new ResponseEntity<TransactionApiResponse>(transactionResult, HttpStatus.OK);
+    public ResponseEntity<ApiResponse> TransactionCredit(@RequestBody TransactionDto transactionDto){
+        ApiResponse transactionResult = transactionService.newCredit(transactionDto);
+        return new ResponseEntity<ApiResponse>(transactionResult, HttpStatus.ACCEPTED);
     }
 
+    @PostMapping("/debit")
+    public ResponseEntity<ApiResponse> TransactionDebit(@RequestBody TransactionDto transactionDto) {
+        ApiResponse transactionResult = transactionService.newDebit(transactionDto);
+        return new ResponseEntity<ApiResponse>(transactionResult, HttpStatus.ACCEPTED);
+    }
 }

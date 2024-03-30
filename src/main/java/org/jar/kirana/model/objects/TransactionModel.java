@@ -9,12 +9,24 @@ import java.time.LocalDateTime;
 
 @Data
 @Document(collection = "transactions")
-@NoArgsConstructor
 public class TransactionModel {
     @Id
-    private long transactionId;
-    private long userId;
+    private String transactionId;
+    private String userId;
+    /*
+    profit - true - Credit
+    profit - false - debit
+     */
+    private boolean profit;
     private LocalDateTime transactionTimeStamp;
+    /*
+    value - +ve - Credit
+    Value - -ve - Debit
+     */
     private long value;
     private String currency;
+    public TransactionModel(){
+        this.profit = true;
+        this.transactionTimeStamp = LocalDateTime.now();
+    }
 }

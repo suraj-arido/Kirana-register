@@ -1,7 +1,7 @@
 package org.jar.kirana.controller;
 
 import org.jar.kirana.dto.UserDto;
-import org.jar.kirana.model.responses.UserApiResponse;
+import org.jar.kirana.model.responses.ApiResponse;
 import org.jar.kirana.service.UserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,8 +15,8 @@ public class UserController {
         this.userService = userService;
     }
     @PostMapping("/new user")
-    public ResponseEntity<UserApiResponse> createUser(@RequestBody UserDto userDto){
-        UserApiResponse createdUserResponse = userService.createUser(userDto);
+    public ResponseEntity<ApiResponse> createUser(@RequestBody UserDto userDto){
+        ApiResponse createdUserResponse = userService.createUser(userDto);
         return new ResponseEntity<>(createdUserResponse, HttpStatus.CREATED);
     }
     @GetMapping("/greetings")
