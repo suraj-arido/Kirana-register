@@ -1,6 +1,5 @@
 package org.jar.kirana.service;
 
-import com.sun.nio.sctp.ShutdownNotification;
 import jakarta.ws.rs.core.Response;
 import org.jar.kirana.dto.UserDto;
 import org.keycloak.admin.client.Keycloak;
@@ -14,19 +13,19 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Collections;
-import java.util.List;
 
 @Service
 public class KeycloakService {
 
     private final Keycloak keycloak;
     private final String realm = "KiranaRealm";
+
     @Autowired
     public KeycloakService(Keycloak keycloak) {
         this.keycloak = keycloak;
     }
 
-    public Response createKeycloakUser(UserDto userDto){
+    public Response createKeycloakUser(UserDto userDto) {
         UserRepresentation user = new UserRepresentation();
         user.setEnabled(true);
         user.setUsername(userDto.getUsername());
@@ -39,14 +38,17 @@ public class KeycloakService {
 
 //      get realm
         RealmResource realmResource = keycloak.realm(realm);
-        System.out.println(realmResource);
+//        System.out.println(realmResource);
         UsersResource userResource = realmResource.users();
-        System.out.println(userResource);
+//        System.out.println(userResource);
 
 //        create the user
         Response response = userResource.create(user);
-        System.out.println("Response: " + response.getStatusInfo());
-        System.out.println(response.getLocation());
+        /**
+         *         System.out.println("Response: " + response.getStatusInfo());
+         *         System.out.println(response.getLocation());
+         */
+
         String userId = response.getLocation().getPath().replaceAll(".*/([^/]+)$", "$1");
 
 //        setting role
@@ -61,6 +63,7 @@ public class KeycloakService {
         userResource.get(userId).resetPassword(passwordCred);
         return response;
     }
+
     private void assignRealmRole(String username, String roleName) {
         RealmResource realmResource = keycloak.realm(realm);
         UserResource userResource = realmResource.users().get(username);

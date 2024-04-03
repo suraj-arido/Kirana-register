@@ -5,28 +5,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.text.MessageFormat;
-
-//@RestController
-//@RequestMapping("/jwt")
-//public class GeneralController {
-//    @GetMapping("/hello")
-//    public String greeting(){
-//        return "Welcome, goAhead and give perfect routes after authentication and perform your operations";
-//    }
-//    @GetMapping("/admin")
-//    public String greetingAdmin(){
-//        return "Amin Reached";
-//    }
-//    @GetMapping("/user")
-//    public String greetingUser(){
-//        return "User Reached";
-//    }
-//}
-
 @RestController
 @RequestMapping("/test")
-public class GeneralController{
+public class GeneralController {
 
     @GetMapping("/hello")
     public ResponseEntity<String> sayHello() {

@@ -1,6 +1,5 @@
 package org.jar.kirana.validator;
 
-import jakarta.validation.constraints.Null;
 import org.jar.kirana.dto.UserDto;
 import org.jar.kirana.model.objects.UserModel;
 import org.jar.kirana.resository.UserRepository;
@@ -51,10 +50,7 @@ public class UserValidator {
         if (userDto.getFirstName() == null) {
             return false;
         }
-        if (userDto.getLastName() == null) {
-            return false;
-        }
-        return true;
+        return userDto.getLastName() != null;
     }
 
     public void validate(UserDto userDto) {
