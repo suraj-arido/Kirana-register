@@ -9,13 +9,17 @@ import org.springframework.stereotype.Component;
 public class UserMapper {
     public UserDto toDto(UserModel user){
         UserDto userDto = new UserDto();
-        userDto.setUserName(user.getUserName());
+        userDto.setUsername(user.getUsername());
         userDto.setEmail(user.getEmail());
+        userDto.setLastName(user.getLastName());
+        userDto.setFirstName(user.getFirstName());
         return userDto;
     }
     public UserModel toUser(UserDto userDto){
         UserModel user = new UserModel();
-        user.setUserName(userDto.getUserName());
+        user.setUsername(userDto.getUsername());
+        user.setLastName(userDto.getLastName());
+        user.setFirstName(userDto.getFirstName());
         user.setEmail(userDto.getEmail());
         return user;
     }

@@ -11,20 +11,45 @@ java {
 	sourceCompatibility = '21'
 }
 
-repositories {
-	mavenCentral()
-}
-
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-data-mongodb'
 	implementation 'org.springframework.boot:spring-boot-starter-data-redis-reactive'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
+
+//	Keycloak
+//	implementation 'org.keycloak:keycloak-admin-client:15.0.2'
+	implementation 'org.keycloak:keycloak-admin-client:24.0.2'
+//	implementation 'org.keycloak.admin.client.resource'
+//implementation 'org.keycloak.admin.client'
+
+
+//	Oauth
+//	implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
+	implementation 'org.springframework.boot:spring-boot-starter-oauth2-resource-server'
+
+//	security
+	implementation 'org.springframework.boot:spring-boot-starter-security'
+//	implementation 'org.springframework:spring-context-support'
+	implementation 'org.hibernate.validator:hibernate-validator'
+
+//	for JTW tokens
+	implementation 'io.jsonwebtoken:jjwt-api:0.11.2'
+	runtimeOnly 'io.jsonwebtoken:jjwt-impl:0.11.2'
+	runtimeOnly 'io.jsonwebtoken:jjwt-jackson:0.11.2'
+
+//	for Otp over mail
+	implementation 'org.springframework.boot:spring-boot-starter-mail'
+
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testImplementation 'io.projectreactor:reactor-test'
 
 	compileOnly 'org.projectlombok:lombok'
 	annotationProcessor 'org.projectlombok:lombok'
 }
+repositories {
+	mavenCentral()
+}
+
 
 tasks.named('test') {
 	useJUnitPlatform()

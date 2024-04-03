@@ -1,7 +1,6 @@
 package org.jar.kirana.model.objects;
 
 import lombok.Data;
-import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -13,20 +12,19 @@ public class TransactionModel {
     @Id
     private String transactionId;
     private String userId;
-    /*
-    profit - true - Credit
-    profit - false - debit
+    /**
+     *     profit - true - Credit
+     *     profit - false - debit
      */
     private boolean profit;
     private LocalDateTime transactionTimeStamp;
-    /*
-    value - +ve - Credit
-    Value - -ve - Debit
+    /**
+     *     value - +ve - Credit
+     *     Value - -ve - Debit
      */
     private long value;
     private String currency;
     public TransactionModel(){
         this.profit = true;
-        this.transactionTimeStamp = LocalDateTime.now();
     }
 }

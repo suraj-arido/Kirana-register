@@ -2,6 +2,7 @@ package org.jar.kirana.service;
 
 //System.out.println(MessageFormat.format("error {0}",e));
 
+import jakarta.ws.rs.core.Response;
 import org.jar.kirana.dto.UserDto;
 import org.jar.kirana.mapper.UserMapper;
 import org.jar.kirana.model.objects.UserModel;
@@ -16,19 +17,24 @@ public class UserService {
     private final UserRepository userRepository;
     private final UserMapper userMapper;
     private final UserValidator userValidator;
+    private final KeycloakService keycloakService;
 
     @Autowired
-    public UserService(UserRepository userRepository, UserMapper userMapper, UserValidator userValidator){
+    public UserService(UserRepository userRepository, UserMapper userMapper, UserValidator userValidator, KeycloakService keycloakService){
         this.userRepository = userRepository;
         this.userMapper = userMapper;
         this.userValidator = userValidator;
+        this.keycloakService = keycloakService;
     }
 
     public ApiResponse createUser(UserDto userDto){
         ApiResponse response = new ApiResponse();
         try{
             userValidator.validate(userDto);
+            Response response1 = keycloakService.createKeycloakUser(userDto);
+            String userId = response1.getLocation().getPath().replaceAll(".*/([^/]+)$", "$1");
             UserModel user = userMapper.toUser(userDto);
+            user.setUserId(userId);
             UserModel savedUser = userRepository.save(user);
             UserDto savedUserDto = userMapper.toDto(savedUser);
             response.setData(savedUserDto);
