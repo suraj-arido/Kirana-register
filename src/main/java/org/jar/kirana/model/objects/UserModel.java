@@ -10,9 +10,10 @@ import java.util.UUID;
 @Document(collection = "users")
 @Data
 public class UserModel {
-    @Id
     private String userId;
-    private String userName;
+    private String firstName;
+    private String lastName;
+    private String username;
     private String email;
     private LocalDateTime accountCreationTimeStamp;
 
