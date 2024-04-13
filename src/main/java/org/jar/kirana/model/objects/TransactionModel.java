@@ -22,9 +22,15 @@ public class TransactionModel {
      *     value - +ve - Credit
      *     Value - -ve - Debit
      */
-    private long value;
-    private String currency;
+    private Double originValue;
+    private String originCurrency;
+    /**
+     * this is the value in terms of USD
+     */
+    private Double defaultValue;
+    private String defaultCurrency;
     public TransactionModel(){
         this.profit = true;
+        this.defaultCurrency = "USD";
     }
 }

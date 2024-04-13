@@ -6,8 +6,8 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
-@Document(collection = "users")
 @Data
+@Document(collection = "users")
 public class UserModel {
     private String userId;
     private String firstName;

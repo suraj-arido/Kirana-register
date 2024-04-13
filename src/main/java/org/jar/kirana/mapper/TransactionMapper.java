@@ -8,16 +8,16 @@ import org.springframework.stereotype.Component;
 public class TransactionMapper {
     public TransactionDto toDto(TransactionModel transaction){
         TransactionDto transactionDto = new TransactionDto();
-        transactionDto.setValue(transaction.getValue());
-        transactionDto.setCurrency(transaction.getCurrency());
         transactionDto.setTransactionTimeStamp(transaction.getTransactionTimeStamp());
+        transactionDto.setValue(transaction.getOriginValue());
+        transactionDto.setCurrency(transaction.getOriginCurrency());
         return transactionDto;
     }
     public TransactionModel toTransaction(TransactionDto transactionDto){
         TransactionModel transaction = new TransactionModel();
-        transaction.setValue(transactionDto.getValue());
         transaction.setTransactionTimeStamp(transactionDto.getTransactionTimeStamp());
-        transaction.setCurrency(transactionDto.getCurrency());
+        transaction.setOriginCurrency(transactionDto.getCurrency());
+        transaction.setOriginValue(transactionDto.getValue());
         return transaction;
     }
 }

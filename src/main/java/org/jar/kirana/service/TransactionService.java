@@ -20,25 +20,30 @@ public class TransactionService {
     private final TransactionMapper transactionMapper;
     private final TransactionRepository transactionRepository;
     private final TransactionValidator transactionValidator;
+    private final CurrencyExchangeService currencyExchangeService;
 
     @Autowired
-    public TransactionService(TransactionMapper transactionMapper, TransactionRepository transactionRepository, TransactionValidator transactionValidator) {
+    public TransactionService(TransactionMapper transactionMapper, TransactionRepository transactionRepository, TransactionValidator transactionValidator, CurrencyExchangeService currencyExchangeService) {
         this.transactionMapper = transactionMapper;
         this.transactionValidator = transactionValidator;
         this.transactionRepository = transactionRepository;
+        this.currencyExchangeService = currencyExchangeService;
     }
 
     public ApiResponse newCredit(TransactionDto transactionDto, Jwt jwt) {
         ApiResponse response = new ApiResponse();
         try {
-            transactionValidator.creditValidate(transactionDto);
+            transactionValidator.creditValidate(transactionDto, currencyExchangeService.getExchangeRates());
             TransactionModel transaction = transactionMapper.toTransaction(transactionDto);
+            transaction.setDefaultValue(currencyExchangeService.getUsdValue(transactionDto.getCurrency(), transactionDto.getValue()));
             transaction.setUserId(jwt.getClaim("sub").toString());
             TransactionModel savedTransaction = transactionRepository.save(transaction);
             TransactionDto savedTransactionDto = transactionMapper.toDto(savedTransaction);
             response.setData(savedTransactionDto);
             response.setStatus("201");
-            response.setDisplayMsg(MessageFormat.format("Thank You {0}, your credit of {1} {2} is Successfully completed.", jwt.getClaim("preferred_username").toString(), savedTransactionDto.getValue(), savedTransactionDto.getCurrency()));
+            response.setDisplayMsg(MessageFormat.format("Thank You {0}, your credit of {1} {2} is " +
+                    "Successfully completed.", jwt.getClaim("preferred_username").toString(),
+                    transactionDto.getValue(), transactionDto.getCurrency()));
         } catch (Exception e) {
             response.setSuccess(false);
             response.setStatus("409");
@@ -51,10 +56,12 @@ public class TransactionService {
     public ApiResponse newDebit(TransactionDto transactionDto, Jwt jwt) {
         ApiResponse response = new ApiResponse();
         try {
-            transactionDto.setValue(-transactionDto.getValue());
-            transactionValidator.debitValidator(transactionDto);
+            transactionValidator.debitValidator(transactionDto, currencyExchangeService.getExchangeRates());
             TransactionModel transaction = transactionMapper.toTransaction(transactionDto);
+            transaction.setDefaultValue(currencyExchangeService.getUsdValue(transactionDto.getCurrency(), transactionDto.getValue()));
+            transaction.setDefaultValue(-transaction.getDefaultValue());
             transaction.setUserId(jwt.getClaim("sub").toString());
+            transaction.setProfit(false);
             TransactionModel savedTransaction = transactionRepository.save(transaction);
             TransactionDto savedTransactionDto = transactionMapper.toDto(savedTransaction);
             response.setData(savedTransactionDto);

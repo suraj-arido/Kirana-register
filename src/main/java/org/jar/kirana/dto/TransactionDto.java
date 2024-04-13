@@ -6,7 +6,7 @@ import java.time.LocalDateTime;
 
 @Data
 public class TransactionDto {
-    private long value;
+    private Double Value;
     private String currency;
     private LocalDateTime transactionTimeStamp;
 
